@@ -50,6 +50,7 @@ class JudyReq():
         print('Initiate GET for {} for {}'.format(endpoint, payload))
 
         response = await session.get(url=endpoint, params=payload, timeout=300)
+        print(response)
         if(response):
             print('Successful GET for {} for {}'.format(endpoint, payload))
         return response
@@ -60,14 +61,14 @@ class JudyReq():
         """
         print('fetching from {}'.format(guild_names))
         if(timestamp == None): # Fetch latest
-            async with httpx.AsyncClient() as session: 
+            async with httpx.AsyncClient() as session:
                 payload = {"names":guild_names}
                 results = await asyncio.gather(*[self.get_url(session, self.GUILD_MEMBERS_BULK, payload)])
         else: # Fetch snapshot
             async with httpx.AsyncClient() as session:
                 payload = {"names":guild_names, "timestamp":timestamp}
                 results = await asyncio.gather(*[self.get_url(session, self.GUILD_SNAPSHOT_BULK, payload)])
-        return [res.json() for res in results]
+        return [res.json() for reself in results]
 
     async def fetch_players(self, player_names, timestamps=None):
         """
@@ -94,6 +95,7 @@ class JudyReq():
         """
         res = await self.fetch_guilds(guild_names)
         res = res[0] # Only made 1 request here, so no need for list of res
+        print(res)
         member_names = []
         for guild in res['Guilds']:
             gname = guild['Name']

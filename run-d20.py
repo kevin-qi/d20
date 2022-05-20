@@ -30,5 +30,6 @@ if __name__ == '__main__':
         config: BotConfigDict = yaml.safe_load(fh)
 
     bot = D20DiscordBot()
-
+    bot.load_extension("src.exts.judy_listener")
+    bot.load_extension("src.exts.reminder")
     bot.run(config["BOT_TOKEN"])

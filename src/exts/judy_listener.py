@@ -3,20 +3,19 @@ from src import core
 import re
 import numpy as np
 
-class Listener(core.Cog): 
+class Listener(core.Cog):
     """
     Cog containing any functions that depend on listening to Judy messages
     """
-    def __init__(self, bot): 
+    def __init__(self, bot):
         self.bot = bot
 
 
-    @core.Cog.listener() 
+    @core.Cog.listener()
     async def on_message(self, message):
         # Ignore self commands
         if(message.author == self.bot.user):
-            return
-        
+            return        
 
         if message.author.name == 'Judy':
             if message.embeds: # Summarize !g command
