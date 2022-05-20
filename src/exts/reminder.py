@@ -1,5 +1,4 @@
 import discord
-from discord.ext import commands
 
 import re
 import numpy as np
@@ -8,19 +7,19 @@ import pandas as pd
 from thefuzz import fuzz
 from thefuzz import process
 
-from utils.abotime import ABOtime
-from utils.requests import JudyReq
+from src import core
+from src.utils.abotime import ABOtime
+from src.utils.requests import JudyReq
 
-class Reminder(commands.Cog):
+class Reminder(core.Cog):
     """
     Reminder provides remind functionality to quickly find those who haven't raided yet.
     """
 
     def __init__(self, bot): 
-        self.bot = bot
         self.ABOtime = ABOtime()
         self.tracked_guilds = ['Dark n DICE', 'DICE', 'InstaDICE']
-
+        super(Reminder, self).__init__(bot)
 
     @discord.slash_command()
     async def remind(self, ctx):
@@ -45,7 +44,7 @@ class Reminder(commands.Cog):
         prev_member_stones = {}
 
         # DataFrames containing results from each timestamp
-        dfs = await JudyReq().fetch_player_stones(member_names_string, [prev_reset_ts.isoformat(), curr_ts.isoformat()])
+        dfs = await JudyReq().fetch_player_data(member_names_string, [prev_reset_ts.isoformat(), curr_ts.isoformat()])
 
         prev_df = dfs[0] # Stones from prev reset
         curr_df = dfs[1] # Stones from today

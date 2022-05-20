@@ -1,9 +1,9 @@
 import discord
-from discord.ext import commands
+from src import core
 import re
 import numpy as np
 
-class Listener(commands.Cog): 
+class Listener(core.Cog): 
     """
     Cog containing any functions that depend on listening to Judy messages
     """
@@ -11,7 +11,7 @@ class Listener(commands.Cog):
         self.bot = bot
 
 
-    @commands.Cog.listener() 
+    @core.Cog.listener() 
     async def on_message(self, message):
         # Ignore self commands
         if(message.author == self.bot.user):
