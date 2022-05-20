@@ -103,6 +103,15 @@ class Reminder(core.Cog):
         msg += "```"
         await ctx.send(msg)
 
+    @discord.slash_command()
+    async def timeseries(self, ctx):
+        curr_ts = self.ABOtime.now()['timestamp']
+        timestamps = [curr_ts.subtract(minutes=30*i) for i in range(100)]
+        print(timestamps)
+        dfs = await JudyReq().fetch_player_data("Deadly,Tonius,DaddyJoe,Jemoni,Binx,Genro", [curr_ts, curr_ts.subtract(minutes=30)])
+        df = pd.concat(dfs, ignore_index=True)
+        print(df)
+        df.to_csv("timeseries.csv")
 def setup(bot):
     bot.add_cog(Reminder(bot))
 

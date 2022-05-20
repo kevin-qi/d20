@@ -131,7 +131,13 @@ class JudyReq():
                     guild = user['GuildName']
                     total_stones = user['GuildXp']
                     season_stones = user['SeasonGuildXp']
-                    temp_df = pd.DataFrame([{"name":name,"guild":guild,"total_stones":total_stones,'season_stones':season_stones}])
+                    timestamp = user['SnapshotTaken']
+                    trophies = user["Rating"]
+                    temp_df = pd.DataFrame([{"name":name,"guild":guild,"total_stones":total_stones,'season_stones':season_stones,'timestamp':timestamp,'rating':trophies}])
                     players[i] = pd.concat([players[i],temp_df], ignore_index=True)
             players[i] = players[i].sort_values(by=['name'])
         return players
+
+    async def pull_player_timeseries(self, player_name, timestamps):
+        timestamps = self.abotime.now()
+        responses = await self.fetch_players(player_names, timestamps)
