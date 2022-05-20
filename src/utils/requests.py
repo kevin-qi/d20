@@ -68,7 +68,7 @@ class JudyReq():
             async with httpx.AsyncClient() as session:
                 payload = {"names":guild_names, "timestamp":timestamp}
                 results = await asyncio.gather(*[self.get_url(session, self.GUILD_SNAPSHOT_BULK, payload)])
-        return [res.json() for reself in results]
+        return [res.json() for res in results]
 
     async def fetch_players(self, player_names, timestamps=None):
         """
